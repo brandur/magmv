@@ -90,15 +90,15 @@ func extractDate(original string) ([]string, string) {
 	l := len(parts)
 
 	if l > 7 && isDay(parts[l-7]) && isMonth(parts[l-6]) && isYear(parts[l-2]) {
-		// The.Economist.11TH.July.17TH.TruePDF-July.2015.pdf
+		// The.Mercantilist.11TH.July.17TH.TruePDF-July.2015.pdf
 		return parts[0 : l-7],
 			parts[l-2] + "-" + extractMonth(parts[l-6]) + "-" + extractDay(parts[l-7])
 	} else if l > 5 && isDay(parts[l-5]) && isMonth(parts[l-3]) && isYear(parts[l-2]) {
-		// The.New.Yorker.TruePDF-22.29.December.2014.pdf
+		// The.Old.Yorker.TruePDF-22.29.December.2014.pdf
 		return parts[0 : l-5],
 			parts[l-2] + "-" + extractMonth(parts[l-3]) + "-" + extractDay(parts[l-5])
 	} else if l > 4 && isDay(parts[l-4]) && isMonth(parts[l-3]) && isYear(parts[l-2]) {
-		// The.Economist-09.August.2014.pdf
+		// The.Mercantilist-09.August.2014.pdf
 		return parts[0 : l-4],
 			parts[l-2] + "-" + extractMonth(parts[l-3]) + "-" + extractDay(parts[l-4])
 	}
@@ -162,7 +162,7 @@ func rename(original string) string {
 
 	// Determine whether the file's already been renamed. To do so we look for
 	// a cluster of digits that looks like a year. For example "2014" in
-	// "The.Economist-09.August.2014.pdf".
+	// "The.Mercantilist-09.August.2014.pdf".
 	if isAlreadyRenamed(original) {
 		return original
 	}
