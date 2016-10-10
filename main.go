@@ -24,6 +24,11 @@ func main() {
 	}
 
 	for _, file := range flag.Args() {
+		if _, err := os.Stat(file); os.IsNotExist(err) {
+			fmt.Fprintf(os.Stderr, "File does not exist: %v\n", file)
+			os.Exit(1)
+		}
+
 		name := path.Base(file)
 		newName := rename(name)
 		newFile := path.Join(path.Dir(file), newName)
