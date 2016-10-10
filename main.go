@@ -19,11 +19,11 @@ func main() {
 	live := flag.Bool("live", false, "Perform operations (as opposed to dry run)")
 	flag.Parse()
 
-	if len(flag.Args()) < 1 {
+	if len(flag.Args()) < 2 {
 		flag.Usage()
 	}
 
-	for _, file := range os.Args {
+	for _, file := range os.Args[1:] {
 		name := path.Base(file)
 		newName := rename(name)
 		newFile := path.Join(path.Dir(file), newName)
@@ -32,9 +32,13 @@ func main() {
 		if name == newName {
 			change = " [unchanged]"
 		}
-		fmt.Printf("%v -> %v%v\n", name, newFile, change)
+		fmt.Printf("%v -> %v%v\n", file, newFile, change)
 
-		if !(*live) {
+		if *live {
+			err := os.Rename(file, newFile)
+			if err != nil {
+				panic(err)
+			}
 		} else {
 			fmt.Printf("Dry run. Use -live to move files.")
 		}
