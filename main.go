@@ -33,15 +33,15 @@ func main() {
 			change = " [unchanged]"
 		}
 		fmt.Printf("%v -> %v%v\n", file, newFile, change)
+	}
 
-		if *live {
-			err := os.Rename(file, newFile)
-			if err != nil {
-				panic(err)
-			}
-		} else {
-			fmt.Printf("Dry run. Use -live to move files.")
+	if *live {
+		err := os.Rename(file, newFile)
+		if err != nil {
+			panic(err)
 		}
+	} else {
+		fmt.Printf("Dry run. Use -live to move files.")
 	}
 }
 
