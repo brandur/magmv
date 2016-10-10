@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"path"
 	"regexp"
 	"strings"
 )
@@ -22,16 +23,20 @@ func main() {
 		flag.Usage()
 	}
 
-	for _, name := range os.Args {
+	for _, file := range os.Args {
+		name := path.Base(file)
 		newName := rename(name)
+		newFile := path.Join(path.Dir(file), newName)
 
 		change := ""
 		if name == newName {
 			change = " [unchanged]"
 		}
-		fmt.Printf("%v -> %v%v\n", name, newName, change)
+		fmt.Printf("%v -> %v%v\n", name, newFile, change)
 
 		if !(*live) {
+		} else {
+			fmt.Printf("Dry run. Use -live to move files.")
 		}
 	}
 }
