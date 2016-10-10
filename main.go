@@ -186,7 +186,9 @@ func rename(original string) string {
 		correctedParts = append(correctedParts[1:len(correctedParts)], "the")
 	}
 
-	correctedParts = append(correctedParts, dateString, "pdf")
+	ext := path.Ext(original)
+	ext = ext[1:] // strip leading dot
 
+	correctedParts = append(correctedParts, dateString, ext)
 	return strings.Join(correctedParts, ".")
 }

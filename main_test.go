@@ -28,6 +28,9 @@ var renameTestCases = [][]string{
 	{"2016.pdf", "2016.pdf"},
 	{"hello.2016.pdf", "hello.2016.pdf"},
 
+	// other file types
+	{"The.Mercantilist-09.August.2014.nzb", "mercantilist.the.2014-08-09.nzb"},
+
 	// files that have already been renamed
 	{"mercantilist.the.2014-08-09.pdf", "mercantilist.the.2014-08-09.pdf"},
 	{"new.yorker.the.2015-10-12.pdf", "new.yorker.the.2015-10-12.pdf"},
