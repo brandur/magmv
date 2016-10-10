@@ -19,11 +19,11 @@ func main() {
 	live := flag.Bool("live", false, "Perform operations (as opposed to dry run)")
 	flag.Parse()
 
-	if len(flag.Args()) < 2 {
+	if len(flag.Args()) < 1 {
 		flag.Usage()
 	}
 
-	for _, file := range os.Args[1:] {
+	for _, file := range flag.Args()[1:] {
 		name := path.Base(file)
 		newName := rename(name)
 		newFile := path.Join(path.Dir(file), newName)
