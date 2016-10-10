@@ -23,7 +23,7 @@ func main() {
 		flag.Usage()
 	}
 
-	for _, file := range flag.Args()[1:] {
+	for _, file := range flag.Args() {
 		name := path.Base(file)
 		newName := rename(name)
 		newFile := path.Join(path.Dir(file), newName)
