@@ -139,6 +139,11 @@ func isYear(part string) bool {
 }
 
 func rename(original string) string {
+	// We should only be passed a filename.
+	if strings.Contains(original, "/") {
+		panic("Expected file but got path")
+	}
+
 	// Determine whether the file's already been renamed. To do so we look for
 	// a cluster of digits that looks like a year. For example "2014" in
 	// "The.Economist-09.August.2014.pdf".
