@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 	"regexp"
@@ -8,9 +9,30 @@ import (
 )
 
 func main() {
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Usage: %v [-live] <file> [<file> ...]\n", os.Args[0])
+		flag.PrintDefaults()
+		os.Exit(0)
+	}
+
+	live := flag.Bool("live", false, "Perform operations (as opposed to dry run)")
+	flag.Parse()
+
+	if len(flag.Args()) < 1 {
+		flag.Usage()
+	}
+
 	for _, name := range os.Args {
 		newName := rename(name)
-		fmt.Printf("%v -> %v", name, newName)
+
+		change := ""
+		if name == newName {
+			change = " [unchanged]"
+		}
+		fmt.Printf("%v -> %v%v\n", name, newName, change)
+
+		if !(*live) {
+		}
 	}
 }
 
