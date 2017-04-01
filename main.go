@@ -153,7 +153,7 @@ func isDate(part string) bool {
 }
 
 func isMonth(part string) bool {
-	for month, _ := range months {
+	for month := range months {
 		if part == month {
 			return true
 		}
