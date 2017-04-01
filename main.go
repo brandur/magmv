@@ -60,6 +60,9 @@ var bannedParts = map[string]bool{
 	"truepdf": true,
 }
 
+// Matches post-rename date: 2017-04-01
+var dateRX = regexp.MustCompile(`^[1-9][0-9]{3}-[01][0-9]-[0123][0-9]$`)
+
 // Matches: 3, 12, 3rd, 8th, 29th, etc.
 var dayRX = regexp.MustCompile(`^[0-9]{1,2}[A-Za-z]{0,2}$`)
 
@@ -93,6 +96,10 @@ func extractDate(original string) ([]string, string) {
 		// The.Mercantilist.11TH.July.17TH.TruePDF-July.2015.pdf
 		return parts[0 : l-7],
 			parts[l-2] + "-" + extractMonth(parts[l-6]) + "-" + extractDay(parts[l-7])
+	} else if l > 6 && isMonth(parts[l-6]) && isDay(parts[l-5]) && isYear(parts[l-2]) {
+		// The.Mercantilist.Europe.April.1.7.TruePDF-2017.pdf
+		return parts[0 : l-6],
+			parts[l-2] + "-" + extractMonth(parts[l-6]) + "-" + extractDay(parts[l-5])
 	} else if l > 5 && isDay(parts[l-5]) && isMonth(parts[l-3]) && isYear(parts[l-2]) {
 		// The.Old.Yorker.TruePDF-22.29.December.2014.pdf
 		return parts[0 : l-5],
@@ -129,16 +136,20 @@ func extractMonth(part string) string {
 func isAlreadyRenamed(original string) bool {
 	dotParts := strings.Split(original, ".")
 	for _, part := range dotParts {
-		if isYear(part) {
-			return false
+		if isDate(part) {
+			return true
 		}
 	}
 
-	return true
+	return false
 }
 
 func isDay(part string) bool {
 	return dayRX.MatchString(part)
+}
+
+func isDate(part string) bool {
+	return dateRX.MatchString(part)
 }
 
 func isMonth(part string) bool {

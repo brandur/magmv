@@ -50,6 +50,7 @@ var renameTestCases = [][]string{
 	{"The.Mercantilist.11TH.July.17TH.TruePDF-July.2015.pdf", "mercantilist.the.2015-07-11.pdf"},
 	{"The.Mercantilist.1ST.November.7TH.TruePDF-November.2014.pdf", "mercantilist.the.2014-11-01.pdf"},
 	{"The.Mercantilist.28TH.November.4TH.TruePDF-December.2015.pdf", "mercantilist.the.2015-11-28.pdf"},
+	{"The.Mercantilist.Europe.April.1.7.TruePDF-2017.pdf", "mercantilist.europe.the.2017-04-01.pdf"},
 
 	{"The.Old.Yorker-01.September.2014.pdf", "old.yorker.the.2014-09-01.pdf"},
 	{"The.Old.Yorker-18.January.2016.pdf", "old.yorker.the.2016-01-18.pdf"},
