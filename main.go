@@ -194,7 +194,7 @@ func rename(original string) string {
 
 	// If there's a "the" on the front, moved it to the back.
 	if correctedParts[0] == "the" {
-		correctedParts = append(correctedParts[1:len(correctedParts)], "the")
+		correctedParts = append(correctedParts[1:], "the")
 	}
 
 	ext := path.Ext(original)
