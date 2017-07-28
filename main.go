@@ -89,6 +89,9 @@ var yearRX = regexp.MustCompile(`^[0-9]{4}$`)
 
 func extractDate(original string) ([]string, string) {
 	original = strings.ToLower(original)
+
+	// Note that parts is all the components of the filename *including* the
+	// extension.
 	parts := partsRX.Split(original, -1)
 	l := len(parts)
 
@@ -96,6 +99,10 @@ func extractDate(original string) ([]string, string) {
 		// The.Mercantilist.11TH.July.17TH.TruePDF-July.2015.pdf
 		return parts[0 : l-7],
 			parts[l-2] + "-" + extractMonth(parts[l-6]) + "-" + extractDay(parts[l-7])
+	} else if l > 7 && isMonth(parts[l-7]) && isDay(parts[l-6]) && isYear(parts[l-2]) {
+		// The.Mercantilist.Europe.July.29.TruePDF-4.August.2017.pdf
+		return parts[0 : l-7],
+			parts[l-2] + "-" + extractMonth(parts[l-7]) + "-" + extractDay(parts[l-6])
 	} else if l > 6 && isMonth(parts[l-6]) && isDay(parts[l-5]) && isYear(parts[l-2]) {
 		// The.Mercantilist.Europe.April.1.7.TruePDF-2017.pdf
 		return parts[0 : l-6],
