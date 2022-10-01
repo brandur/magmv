@@ -67,23 +67,34 @@ var dateRX = regexp.MustCompile(`^[1-9][0-9]{3}-[01][0-9]-[0123][0-9]$`)
 var dayRX = regexp.MustCompile(`^[0-9]{1,2}[A-Za-z]{0,2}$`)
 
 var months = map[string]string{
+	"jan":       "01",
 	"january":   "01",
+	"feb":       "02",
 	"february":  "02",
+	"mar":       "03",
 	"march":     "03",
+	"apr":       "04",
 	"april":     "04",
 	"may":       "05",
+	"jun":       "06",
 	"june":      "06",
+	"jul":       "07",
 	"july":      "07",
+	"aug":       "08",
 	"august":    "08",
+	"sep":       "09",
 	"september": "09",
+	"oct":       "10",
 	"october":   "10",
+	"nov":       "11",
 	"november":  "11",
+	"dec":       "12",
 	"december":  "12",
 }
 
 // Splits on a "." or "-" so we handle the weird hyphenation between words and
 // date.
-var partsRX = regexp.MustCompile(`[.-]`)
+var partsRX = regexp.MustCompile(`[()[\] .-]+`)
 
 var yearRX = regexp.MustCompile(`^[0-9]{4}$`)
 
@@ -95,7 +106,13 @@ func extractDate(original string) ([]string, string) {
 	parts := partsRX.Split(original, -1)
 	l := len(parts)
 
-	if l > 7 && isDay(parts[l-7]) && isMonth(parts[l-6]) && isYear(parts[l-2]) {
+	fmt.Printf("parts: %+v (length %d)\n", parts, len(parts))
+
+	if l > 11 && isDay(parts[l-5]) && isMonth(parts[l-4]) && isYear(parts[l-3]) {
+		// The Mercantilist (UK) - Vol. 444 No. 9314 [24 Sep 2022] (TruePDF).pdf
+		return parts[0 : l-9],
+			parts[l-3] + "-" + extractMonth(parts[l-4]) + "-" + extractDay(parts[l-5])
+	} else if l > 7 && isDay(parts[l-7]) && isMonth(parts[l-6]) && isYear(parts[l-2]) {
 		// The.Mercantilist.11TH.July.17TH.TruePDF-July.2015.pdf
 		return parts[0 : l-7],
 			parts[l-2] + "-" + extractMonth(parts[l-6]) + "-" + extractDay(parts[l-7])
@@ -160,12 +177,8 @@ func isDate(part string) bool {
 }
 
 func isMonth(part string) bool {
-	for month := range months {
-		if part == month {
-			return true
-		}
-	}
-	return false
+	_, ok := months[part]
+	return ok
 }
 
 func isYear(part string) bool {
